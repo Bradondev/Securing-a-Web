@@ -25,6 +25,7 @@ public class WebSecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
+
                 )
                 .logout((logout) -> logout.permitAll());
 
@@ -33,13 +34,18 @@ public class WebSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
+        UserDetails user = User.withDefaultPasswordEncoder()
+                .username("user")
+                .password("password")
+                .roles("USER")
+                .build();
 
-        return new InMemoryUserDetailsManager(user);
+        UserDetails tester = User.withDefaultPasswordEncoder()
+                .username("Tester")
+                .password("password")
+                .roles("TESTER")
+                .build();
+
+        return new InMemoryUserDetailsManager(user, tester);
     }
 }
